@@ -1,28 +1,42 @@
 // 轮播图功能模块
-let currentSlide = 0;
-const slides = document.querySelectorAll('.slide');
-const totalSlides = slides.length;
+let currentIndex = 0;
+const slider = document.querySelector('.slider');
+const totalSlides = 3; // 明确3张图
 
-/**
- * 显示指定索引的幻灯片
- * @param {number} index - 幻灯片索引
- */
-function showSlide(index) {
-    const slider = document.querySelector('.slider');
-    const offset = -index * 100;
-    slider.style.transform = `translateX(${offset}%)`;
+// 切换轮播图
+function goToSlide(index) {
+    // 约束索引范围在0-2之间
+    currentIndex = (index + totalSlides) % totalSlides;
+    slider.style.transform = `translateX(-${currentIndex * 33.333}%)`;
 }
 
-/**
- * 切换到下一张幻灯片
- */
-function nextSlide() {
-    currentSlide = (currentSlide + 1) % totalSlides;
-    showSlide(currentSlide);
+// 自动播放
+let autoPlayTimer = setInterval(() => goToSlide(currentIndex + 1), 3000);
+
+// 重置自动播放计时器
+function resetAutoPlay() {
+    clearInterval(autoPlayTimer);
+    autoPlayTimer = setInterval(() => goToSlide(currentIndex + 1), 3000);
 }
 
-// 启动自动轮播
-setInterval(nextSlide, 5000);
+// 事件绑定示例
+document.querySelector('.next').addEventListener('click', () => {
+    goToSlide(currentIndex + 1);
+    resetAutoPlay();
+});
+
+document.querySelector('.prev').addEventListener('click', () => {
+    goToSlide(currentIndex - 1);
+    resetAutoPlay();
+});
+
+// 小圆点点击事件
+document.querySelectorAll('.slider-dot').forEach((dot, index) => {
+    dot.addEventListener('click', () => {
+        goToSlide(index);
+        resetAutoPlay();
+    });
+});
 
 // 移动端菜单交互模块
 const menuBtn = document.querySelector('.mobile-menu-btn');
