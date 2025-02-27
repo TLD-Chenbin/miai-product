@@ -110,19 +110,52 @@ body {
     position: relative;
 }
 
+/* 添加导航按钮基础样式 */
+.slider-nav-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0,0,0,0.5);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 10;
+}
+.slider-nav-button.prev { left: 10px; }
+.slider-nav-button.next { right: 10px; }
+
+/* 指示器小圆点 */
+.slider-dots {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+}
+.slider-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.5);
+    cursor: pointer;
+}
+.slider-dot.active { background: white; }
+
+/* 核心轮播逻辑 */
 .slider {
     display: flex;
-    width: 300%;
+    width: 300%; /* 正好容纳3张图 */
     height: 100%;
-    transition: transform var(--transition-speed);
+    transition: transform 0.5s ease-in-out; /* 明确动画时长 */
 }
 
 .slide {
-    flex: 1 0 33.333%;
+    flex: 0 0 33.333%; /* 禁止缩放，严格三等分 */
     height: 100%;
     background-size: cover;
     background-position: center;
-    position: relative;
 }
 
 /* 轮播图内容 */
